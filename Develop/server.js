@@ -8,12 +8,15 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => res.send('Navigate to /send or /routes'));
 
+
+// Route for the notes.html file
 app.get('/send', (req, res) =>
-  res.sendFile(path.join(__dirname, 'public/send.html'))
+  res.sendFile(path.join(__dirname, './public/notes.html'))
 );
 
+// Route for the index.html file
 app.get('/paths', (req, res) =>
-  res.sendFile(path.join(__dirname, 'public/paths.html'))
+  res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
 app.listen(PORT, () =>
