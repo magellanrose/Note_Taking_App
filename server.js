@@ -10,8 +10,10 @@ app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded());
 
+//GET notes from the server
 app.get('/api/notes', (req, res) => res.json(db));
 
+//ADD notes to the server
 app.post('/api/notes', (req, res) => {
   var newNote = req.body
   newNote.id = uuidv4();
@@ -32,6 +34,11 @@ app.get('/notes', (req, res) =>
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, './public/index.html'))
 );
+
+// DELETE notes from the server
+// app.delete('api/notes', (req, res) => {
+//   const deleteNote = 
+// })
 
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
