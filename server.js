@@ -35,9 +35,14 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
-// DELETE notes from the server
-// app.delete('api/notes', (req, res) => {
-//   const deleteNote = 
+// // DELETE notes from the server
+// app.delete('api/notes/:id', async (req, res) => {
+//   const deleteNote = req.params.id;
+//   try {
+//     await
+//   } catch (err){
+//     console.log(err);
+//   }
 // })
 
 app.listen(PORT, () =>
