@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3001;
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
+// Middleware
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded());
@@ -19,10 +20,11 @@ app.post('/api/notes', (req, res) => {
   newNote.id = uuidv4();
   db.push(newNote);
 
+  // Write the updated notes array to the db.json file
   fs.writeFile('./db/db.json', JSON.stringify(db), (err, result) => {
     if (err) throw err;
     res.json(newNote);
-  })
+  });
 });
 
 // Route for the notes.html file
@@ -35,7 +37,7 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
-// DELETE Route
+// DELETE route to delete notes
 app.delete('/api/notes/:id', (req, res) => {
   const noteIdToDelete = req.params.id;
 
@@ -45,11 +47,11 @@ app.delete('/api/notes/:id', (req, res) => {
   // Write the updated notes to the file
   fs.writeFile('./db/db.json', JSON.stringify(db), (err) => {
     if (err) throw err;
-    console.log('Note is now deleted', noteIdToDelete);
     res.json({ message: 'Note deleted successfully' });
   });
 });
 
+// Start the server and listen for the specified PORT
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
 );
