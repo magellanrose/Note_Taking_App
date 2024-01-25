@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const db = require('./db/db.json')
+let db = require('./db/db.json')
 const app = express();
 const PORT = process.env.PORT || 3001;
 const fs = require('fs');
@@ -35,15 +35,20 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
-// // DELETE notes from the server
-// app.delete('api/notes/:id', async (req, res) => {
-//   const deleteNote = req.params.id;
-//   try {
-//     await
-//   } catch (err){
-//     console.log(err);
-//   }
-// })
+// DELETE Route
+app.delete('/api/notes/:id', (req, res) => {
+  const noteIdToDelete = req.params.id;
+
+  // Filter out the note with the given id
+  db = db.filter((note) => note.id !== noteIdToDelete);
+
+  // Write the updated notes to the file
+  fs.writeFile('./db/db.json', JSON.stringify(db), (err) => {
+    if (err) throw err;
+    console.log('Note is now deleted', noteIdToDelete);
+    res.json({ message: 'Note deleted successfully' });
+  });
+});
 
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
